@@ -1,0 +1,301 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Sistema de Cadastro de Clientes</h1>
+
+        <!-- Botões de ação -->
+        <div class="d-flex justify-content-center mb-4">
+            <!-- Botão para abrir modal de cadastro -->
+            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalCadastroCliente">
+                <i class="fas fa-user-plus"></i> Cadastrar Cliente
+            </button>
+
+            <!-- Botão para listar clientes diretamente na página -->
+            <button type="button" class="btn btn-success me-2" id="listarClientes">
+                <i class="fas fa-users"></i> Listar Clientes
+            </button>
+
+            <!-- Botão para buscar cliente -->
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalBuscarCliente">
+                <i class="fas fa-search"></i> Buscar Cliente
+            </button>
+        </div>
+
+        <!-- Seção para exibição de clientes listados -->
+        <div id="clientesList"></div>
+
+        <!-- Modal para cadastro de cliente -->
+        <div class="modal fade" id="modalCadastroCliente" tabindex="-1" aria-labelledby="modalCadastroClienteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCadastroClienteLabel">Cadastro de Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formCadastroCliente">
+                            <div class="mb-3">
+                                <label for="nomeCliente" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nomeCliente" placeholder="Nome do Cliente" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailCliente" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailCliente" placeholder="email@exemplo.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefoneCliente" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="telefoneCliente" placeholder="(XX) XXXX-XXXX" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enderecoCliente" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="enderecoCliente" placeholder="Endereço do Cliente" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dataCadastro" class="form-label">Data de Cadastro</label>
+                                <input type="date" class="form-control" id="dataCadastro" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="salvarCliente">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para buscar cliente -->
+        <div class="modal fade" id="modalBuscarCliente" tabindex="-1" aria-labelledby="modalBuscarClienteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalBuscarClienteLabel">Buscar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formBuscarCliente">
+                            <div class="mb-3">
+                                <label for="idClienteBuscar" class="form-label">ID do Cliente</label>
+                                <input type="number" class="form-control" id="idClienteBuscar" required>
+                            </div>
+                        </form>
+                        <div id="resultadoBusca"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-info" id="buscarCliente">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para atualizar cliente -->
+        <div class="modal fade" id="modalAtualizarCliente" tabindex="-1" aria-labelledby="modalAtualizarClienteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAtualizarClienteLabel">Atualizar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formAtualizarCliente">
+                            <input type="hidden" id="idClienteAtualizar">
+                            <div class="mb-3">
+                                <label for="nomeClienteAtualizar" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nomeClienteAtualizar" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailClienteAtualizar" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailClienteAtualizar" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefoneClienteAtualizar" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="telefoneClienteAtualizar" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enderecoClienteAtualizar" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="enderecoClienteAtualizar" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-warning" id="salvarAtualizacaoCliente">Atualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Div para exibir mensagens gerais (sucesso/erro) -->
+        <div id="resultado" class="mt-3"></div>
+    </div>
+
+    <!-- Scripts JS: Bootstrap e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Para os ícones -->
+
+    <script>
+        $(document).ready(function () {
+            // Função para cadastrar cliente
+            $("#salvarCliente").click(function () {
+                var formData = {
+                    nome: $("#nomeCliente").val(),
+                    email: $("#emailCliente").val(),
+                    telefone: $("#telefoneCliente").val(),
+                    endereco: $("#enderecoCliente").val(),
+                    data: $("#dataCadastro").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:44324/api/clientes",
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        $("#resultado").html("<p class='alert alert-success'>Cliente cadastrado com sucesso!</p>");
+                      //$("#modalCadastroCliente").modal('hide'); tela congela 
+                        $("#formCadastroCliente")[0].reset();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        $("#resultado").html("<p class='alert alert-danger'>Ocorreu um erro. Tente novamente mais tarde.</p>");
+                    }
+                });
+            });
+
+            // Função para listar clientes diretamente na página
+            $("#listarClientes").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44324/api/clientes",
+                    success: function (response) {
+                        var clientesList = $("#clientesList");
+                        clientesList.empty(); // Limpa a lista antes de inserir novos dados
+
+                        // Criar a tabela de clientes na tela principal
+                        var table = "<table class='table table-striped'><thead><tr>" +
+                            "<th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Endereço</th><th>Data</th><th>Ações</th>" +
+                            "</tr></thead><tbody>";
+
+                        // Loop pelos clientes retornados e adicionar à tabela
+                        $.each(response, function (index, cliente) {
+                            table += "<tr>" +
+                                "<td>" + cliente.id + "</td>" +
+                                "<td>" + cliente.nome + "</td>" +
+                                "<td>" + cliente.email + "</td>" +
+                                "<td>" + cliente.telefone + "</td>" +
+                                "<td>" + cliente.endereco + "</td>" +
+                                "<td>" + new Date(cliente.data).toLocaleDateString() + "</td>" +
+                                "<td>" +
+                                "<button class='btn btn-warning btn-sm me-2 atualizarCliente' data-id='" + cliente.id + "'>Atualizar</button>" +
+                                "<button class='btn btn-danger btn-sm apagarCliente' data-id='" + cliente.id + "'>Apagar</button>" +
+                                "</td>" +
+                                "</tr>";
+                        });
+                        table += "</tbody></table>";
+
+                        clientesList.append(table);
+
+                        // Função para apagar cliente
+                        $(".apagarCliente").click(function () {
+                            var clienteId = $(this).data("id");
+
+                            $.ajax({
+                                type: "DELETE",
+                                url: "https://localhost:44324/api/clientes/" + clienteId,
+                                success: function () {
+                                    $("#resultado").html("<p class='alert alert-success'>Cliente apagado com sucesso!</p>");
+                                    $("#listarClientes").trigger("click"); // Recarregar a lista de clientes
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr.responseText);
+                                    $("#resultado").html("<p class='alert alert-danger'>Ocorreu um erro ao apagar o cliente.</p>");
+                                }
+                            });
+                        });
+
+                        // Função para abrir o modal de atualização com os dados do cliente
+                        $(".atualizarCliente").click(function () {
+                            var clienteId = $(this).data("id");
+
+                            // Buscar dados do cliente para preencher o formulário de atualização
+                            $.ajax({
+                                type: "GET",
+                                url: "https://localhost:44324/api/clientes/" + clienteId,
+                                success: function (cliente) {
+                                    // Preencher o modal de atualização com os dados do cliente
+                                    $("#idClienteAtualizar").val(cliente.id);
+                                    $("#nomeClienteAtualizar").val(cliente.nome);
+                                    $("#emailClienteAtualizar").val(cliente.email);
+                                    $("#telefoneClienteAtualizar").val(cliente.telefone);
+                                    $("#enderecoClienteAtualizar").val(cliente.endereco);
+
+                                    // Abrir o modal de atualização
+                                    $("#modalAtualizarCliente").modal('show');
+                                }
+                            });
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        $("#clientesList").html("<p class='alert alert-danger'>Erro ao carregar clientes.</p>");
+                    }
+                });
+            });
+
+            // Função para salvar a atualização do cliente
+            $("#salvarAtualizacaoCliente").click(function () {
+                var clienteId = $("#idClienteAtualizar").val();
+                var formData = {
+                    id: clienteId,
+                    nome: $("#nomeClienteAtualizar").val(),
+                    email: $("#emailClienteAtualizar").val(),
+                    telefone: $("#telefoneClienteAtualizar").val(),
+                    endereco: $("#enderecoClienteAtualizar").val()
+                };
+
+                $.ajax({
+                    type: "PUT",
+                    url: "https://localhost:44324/api/clientes/" + clienteId,
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        $("#modalAtualizarCliente").modal('hide');
+                        $("#resultado").html("<p class='alert alert-success'>Cliente atualizado com sucesso!</p>");
+                        $("#listarClientes").trigger("click"); // Recarregar a lista de clientes
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        $("#resultado").html("<p class='alert alert-danger'>Erro ao atualizar cliente.</p>");
+                    }
+                });
+            });
+
+            // Função para buscar cliente
+            $("#buscarCliente").click(function () {
+                var clienteId = $("#idClienteBuscar").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44324/api/clientes/" + clienteId,
+                    success: function (response) {
+                        $("#resultadoBusca").html(
+                            "<p><strong>Nome:</strong> " + response.nome + "</p>" +
+                            "<p><strong>Email:</strong> " + response.email + "</p>" +
+                            "<p><strong>Telefone:</strong> " + response.telefone + "</p>" +
+                            "<p><strong>Endereço:</strong> " + response.endereco + "</p>"
+                        );
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        $("#resultadoBusca").html("<p class='alert alert-danger'>Cliente não encontrado.</p>");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
